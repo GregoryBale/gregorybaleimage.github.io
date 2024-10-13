@@ -1,7 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const apis = [
         'https://paxsenix.serv00.net/v1/pollinations.php?text=',
-        'https://paxsenix.serv00.net/v1/magicstudio.php?text='
+        'https://paxsenix.serv00.net/v1/magicstudio.php?text=',
+        'https://paxsenix.serv00.net/v1/sdxl.php?text=',
+        'https://paxsenix.serv00.net/v1/prodia.php?text=',
+        'https://paxsenix.serv00.net/v1/jugger.php?text=',
+        'https://paxsenix.serv00.net/v1/dalle.php?text='
     ];
 
     const generateImageBtn = document.getElementById('generateImageBtn');
