@@ -72,23 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз.",
             switchingModel: "Переключение на другую модель из-за задержки...",
             allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже."
-        },
-            title: "Կիբեր Գեներատոր",
-            copyTitle: "Պատճենել",
-            clearTitle: "Ջնջել",
-            generateTextTitle: "Գեներացնել տեքստ",
-            inputPlaceholder: "Մուտքագրեք հարցում",
-            generateBtnText: "Ստեղծել պատկեր",
-            downloadText: "Ներբեռնել",
-            successMessage: "Պատկերը հաջողությամբ գեներացվեց!",
-            errorMessage: "Չհաջողվեց գեներացնել պատկեր: Խնդրում ենք կրկին փորձել:",
-            copySuccess: "Տեքստը պատճենվեց սեղմատախտակին!",
-            copyError: "Չհաջողվեց պատճենել տեքստը",
-            nothingToCopy: "Պատճենելու ոչինչ չկա: Մուտքագրեք տեքստը դաշտում:",
-            textCleared: "Տեքստը ջնջվեց",
-            alreadyEmpty: "Մուտքագրման դաշտն արդեն դատարկ է",
-            notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ"
         }
+        
     };
 
     function setLanguage(lang) {
