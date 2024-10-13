@@ -88,8 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
             textCleared: "Տեքստը ջնջվեց",
             alreadyEmpty: "Մուտքագրման դաշտն արդեն դատարկ է",
             notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ"
-    }
-};
+        }
+    };
 
     function setLanguage(lang) {
         currentLanguage = lang;
