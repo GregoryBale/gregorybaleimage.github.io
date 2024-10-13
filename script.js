@@ -8,20 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
         'https://paxsenix.serv00.net/v1/dalle.php?text='
     ];
 
-    const generateImageBtn = document.getElementById('generateImageBtn');
-    const imagePrompt = document.getElementById('imagePrompt');
-    const imageContainer = document.getElementById('imageContainer');
-    const loader = document.getElementById('loader');
-    const notification = document.getElementById('notification');
-    const notificationIcon = document.getElementById('notificationIcon');
-    const notificationMessage = document.getElementById('notificationMessage');
-    const notificationAction = document.getElementById('notificationAction');
-    const copyBtn = document.getElementById('copyBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const generateTextBtn = document.getElementById('generateTextBtn');
-    const languageBtn = document.getElementById('languageBtn');
-    const languageMenu = document.getElementById('languageMenu');
-    const generateBtnText = document.getElementById('generateBtnText');
+    const elements = {
+        generateImageBtn: document.getElementById('generateImageBtn'),
+        imagePrompt: document.getElementById('imagePrompt'),
+        imageContainer: document.getElementById('imageContainer'),
+        loader: document.getElementById('loader'),
+        notification: document.getElementById('notification'),
+        notificationIcon: document.getElementById('notificationIcon'),
+        notificationMessage: document.getElementById('notificationMessage'),
+        notificationAction: document.getElementById('notificationAction'),
+        copyBtn: document.getElementById('copyBtn'),
+        clearBtn: document.getElementById('clearBtn'),
+        generateTextBtn: document.getElementById('generateTextBtn'),
+        languageBtn: document.getElementById('languageBtn'),
+        languageMenu: document.getElementById('languageMenu'),
+        generateBtnText: document.getElementById('generateBtnText'),
+        ratingContainer: document.getElementById('ratingContainer'),
+        likeBtn: document.getElementById('likeBtn'),
+        dislikeBtn: document.getElementById('dislikeBtn')
+    };
 
     let currentLanguage = 'en';
 
@@ -41,7 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Nothing to copy. Enter text in the input field.",
             textCleared: "Text cleared",
             alreadyEmpty: "Input field is already empty",
-            notImplemented: "Text generation function will be implemented later"
+            notImplemented: "Text generation function will be implemented later",
+            ratingSuccess: "Thank you for your feedback!",
+            ratingError: "Error submitting rating. Please try again."
         },
         uk: {
             title: "Кібер Генератор",
@@ -58,7 +65,9 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Нічого копіювати. Введіть текст у поле вводу.",
             textCleared: "Текст видалено",
             alreadyEmpty: "Поле вводу вже порожнє",
-            notImplemented: "Функція генерації тексту буде реалізована пізніше"
+            notImplemented: "Функція генерації тексту буде реалізована пізніше",
+            ratingSuccess: "Дякуємо за ваш відгук!",
+            ratingError: "Помилка при відправці оцінки. Будь ласка, спробуйте ще раз."
         },
         ru: {
             title: "Кибер Генератор",
@@ -75,7 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Нечего копировать. Введите текст в поле ввода.",
             textCleared: "Текст удален",
             alreadyEmpty: "Поле ввода уже пустое",
-            notImplemented: "Функция генерации текста будет реализована позже"
+            notImplemented: "Функция генерации текста будет реализована позже",
+            ratingSuccess: "Спасибо за ваш отзыв!",
+            ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз."
         },
         hy: {
             title: "Կիբեր Գեներատոր",
@@ -92,7 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Պատճենելու ոչինչ չկա: Մուտքագրեք տեքստը դաշտում:",
             textCleared: "Տեքստը ջնջվեց",
             alreadyEmpty: "Մուտքագրման դաշտն արդեն դատարկ է",
-            notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ"
+            notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ",
+            ratingSuccess: "Շնորհակալություն ձեր կարծիքի համար!",
+            ratingError: "Գնահատականը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք կրկին փորձել:"
         }
     };
 
@@ -107,129 +120,101 @@ document.addEventListener('DOMContentLoaded', function() {
         document.title = texts.title;
         document.querySelector('.glitch').textContent = texts.title;
         document.querySelector('.glitch').setAttribute('data-text', texts.title);
-        copyBtn.title = texts.copyTitle;
-        clearBtn.title = texts.clearTitle;
-        generateTextBtn.title = texts.generateTextTitle;
-        imagePrompt.placeholder = texts.inputPlaceholder;
-        generateBtnText.textContent = texts.generateBtnText;
+        elements.copyBtn.title = texts.copyTitle;
+        elements.clearBtn.title = texts.clearTitle;
+        elements.generateTextBtn.title = texts.generateTextTitle;
+        elements.imagePrompt.placeholder = texts.inputPlaceholder;
+        elements.generateBtnText.textContent = texts.generateBtnText;
     }
 
     function initLanguage() {
         const userLang = navigator.language || navigator.userLanguage;
         const langCode = userLang.split('-')[0];
-        if (translations[langCode]) {
-            setLanguage(langCode);
-        } else {
-            setLanguage('en');
-        }
+        setLanguage(translations[langCode] ? langCode : 'en');
     }
 
-    languageBtn.addEventListener('click', () => {
-        languageMenu.style.display = languageMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    languageMenu.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') {
-            setLanguage(e.target.getAttribute('data-lang'));
-            languageMenu.style.display = 'none';
-        }
-    });
-
-    generateImageBtn.addEventListener('click', generateImage);
-    imagePrompt.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            generateImage();
-        }
-    });
-
-    copyBtn.addEventListener('click', copyText);
-    clearBtn.addEventListener('click', clearText);
-    generateTextBtn.addEventListener('click', generateText);
-
     function showNotification(message, type) {
-        notification.className = `notification ${type}`;
-        notificationMessage.textContent = message;
-
+        elements.notification.className = `notification ${type}`;
+        elements.notificationMessage.textContent = message;
+        
         if (type === 'success') {
-            notificationIcon.className = 'fas fa-check-circle notification-icon';
-            notificationAction.className = 'notification-close';
-            notificationAction.innerHTML = '<i class="fas fa-times"></i>';
-            notificationAction.onclick = hideNotification;
+            elements.notificationIcon.className = 'fas fa-check-circle notification-icon';
+            elements.notificationAction.className = 'notification-close';
+            elements.notificationAction.innerHTML = '<i class="fas fa-times"></i>';
+            elements.notificationAction.onclick = hideNotification;
         } else {
-            notificationIcon.className = 'fas fa-exclamation-circle notification-icon';
-            notificationAction.className = 'notification-retry';
-            notificationAction.innerHTML = '<i class="fas fa-redo"></i>';
-            notificationAction.onclick = generateImage;
+            elements.notificationIcon.className = 'fas fa-exclamation-circle notification-icon';
+            elements.notificationAction.className = 'notification-retry';
+            elements.notificationAction.innerHTML = '<i class="fas fa-redo"></i>';
+            elements.notificationAction.onclick = generateImage;
         }
-
-        notification.classList.add('show');
+        
+        elements.notification.classList.add('show');
         if (type === 'success') {
             setTimeout(hideNotification, 5000);
         }
     }
 
     function hideNotification() {
-        notification.classList.remove('show');
+        elements.notification.classList.remove('show');
     }
 
     async function generateImage() {
-        const query = imagePrompt.value.trim();
+        const query = elements.imagePrompt.value.trim();
         if (!query) {
-            imagePrompt.classList.add('shake');
-            setTimeout(() => imagePrompt.classList.remove('shake'), 820);
+            elements.imagePrompt.classList.add('shake');
+            setTimeout(() => elements.imagePrompt.classList.remove('shake'), 820);
             return;
         }
 
-        loader.style.display = 'block';
-        imageContainer.innerHTML = '';
-        generateImageBtn.disabled = true;
+        elements.loader.style.display = 'block';
+        elements.imageContainer.innerHTML = '';
+        elements.generateImageBtn.disabled = true;
         hideNotification();
 
-        // Выбор случайного API для генерации
         const randomApi = apis[Math.floor(Math.random() * apis.length)] + encodeURIComponent(query);
 
         try {
-            const response = await Promise.race([
-                fetch(randomApi),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000)) // 10 секунд на ответ
-            ]);
+            const response = await fetch(randomApi);
             const data = await response.json();
 
             if (data.ok) {
-            const imageUrl = data.url;
-            const img = new Image();
-            img.onload = () => {
-                loader.style.display = 'none';
-                imageContainer.innerHTML = `
-                    <img src="${imageUrl}" alt="Generated Image" class="fade-in">
-                    <div class="download-overlay">
-                        <a href="${imageUrl}" download class="download-btn">
-                            <i class="fas fa-download"></i> ${translations[currentLanguage].downloadText}
+                const imageUrl = data.url;
+                const img = new Image();
+                img.onload = () => {
+                    elements.loader.style.display = 'none';
+                    elements.imageContainer.innerHTML = `
+                        <img src="${imageUrl}" alt="Generated Image" class="fade-in">
+                        <div class="download-overlay">
+                            <a href="${imageUrl}" download class="download-btn">
+                                <i class="fas fa-download"></i> ${translations[currentLanguage].downloadText}
                             </a>
                         </div>
                     `;
+                    elements.generateImageBtn.disabled = false;
+                    showNotification(translations[currentLanguage].successMessage, 'success');
+                    showRatingOptions();
                 };
                 img.src = imageUrl;
-                showNotification(translations[currentLanguage].successMessage, 'success');
             } else {
-                throw new Error(translations[currentLanguage].errorMessage);
+                throw new Error('Error generating image');
             }
         } catch (error) {
-            loader.style.display = 'none';
-            showNotification(error.message || translations[currentLanguage].errorMessage, 'error');
-        } finally {
-            generateImageBtn.disabled = false;
+            console.error('Error:', error);
+            elements.loader.style.display = 'none';
+            elements.generateImageBtn.disabled = false;
+            showNotification(translations[currentLanguage].errorMessage, 'error');
         }
     }
 
     function copyText() {
-        const textToCopy = imagePrompt.value.trim();
-        if (!textToCopy) {
+        const text = elements.imagePrompt.value.trim();
+        if (!text) {
             showNotification(translations[currentLanguage].nothingToCopy, 'error');
             return;
         }
 
-        navigator.clipboard.writeText(textToCopy).then(() => {
+        navigator.clipboard.writeText(text).then(() => {
             showNotification(translations[currentLanguage].copySuccess, 'success');
         }).catch(() => {
             showNotification(translations[currentLanguage].copyError, 'error');
@@ -237,12 +222,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearText() {
-        if (!imagePrompt.value.trim()) {
+        if (!elements.imagePrompt.value.trim()) {
             showNotification(translations[currentLanguage].alreadyEmpty, 'error');
             return;
         }
 
-        imagePrompt.value = '';
+        elements.imagePrompt.value = '';
         showNotification(translations[currentLanguage].textCleared, 'success');
     }
 
@@ -250,5 +235,64 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification(translations[currentLanguage].notImplemented, 'error');
     }
 
+    function showRatingOptions() {
+        setTimeout(() => {
+            elements.ratingContainer.style.display = 'flex';
+        }, 2000);
+    }
+
+    function hideRatingOptions() {
+        elements.ratingContainer.style.display = 'none';
+    }
+
+    function rateGeneration(rating) {
+        const prompt = elements.imagePrompt.value;
+        const data = {
+            prompt: prompt,
+            rating: rating
+        };
+
+        fetch('report.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            showNotification(result.success ? translations[currentLanguage].ratingSuccess : translations[currentLanguage].ratingError, result.success ? 'success' : 'error');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification(translations[currentLanguage].ratingError, 'error');
+        });
+
+        hideRatingOptions();
+    }
+
+    // Event Listeners
+    elements.generateImageBtn.addEventListener('click', generateImage);
+    elements.imagePrompt.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            generateImage();
+        }
+    });
+    elements.copyBtn.addEventListener('click', copyText);
+    elements.clearBtn.addEventListener('click', clearText);
+    elements.generateTextBtn.addEventListener('click', generateText);
+    elements.languageBtn.addEventListener('click', () => {
+        elements.languageMenu.style.display = elements.languageMenu.style.display === 'block' ? 'none' : 'block';
+    });
+    elements.languageMenu.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            setLanguage(e.target.getAttribute('data-lang'));
+            elements.languageMenu.style.display = 'none';
+        }
+    });
+    elements.likeBtn.addEventListener('click', () => rateGeneration('like'));
+    elements.dislikeBtn.addEventListener('click', () => rateGeneration('dislike'));
+
+    // Initialize
     initLanguage();
 });
