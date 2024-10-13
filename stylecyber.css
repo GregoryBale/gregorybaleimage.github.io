@@ -627,3 +627,88 @@ h1 {
     border-color: #ff0000;
     color: #ff0000;
 }
+
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#musicBtn {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ff00ff;
+    color: #ff00ff;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#musicBtn:hover {
+    background: rgba(255, 0, 255, 0.2);
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+}
+
+.music-player {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid #ff00ff;
+    border-radius: 10px;
+    padding: 15px;
+    color: #ff00ff;
+    z-index: 1000;
+}
+
+.disc-animation {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff00ff, #00ffff);
+    margin: 0 auto 15px;
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#playPauseBtn {
+    background: none;
+    border: none;
+    color: #ff00ff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 5px;
+    background: rgba(255, 0, 255, 0.3);
+    margin: 0 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0;
+    height: 100%;
+    background: #ff00ff;
+    transition: width 0.1s linear;
+}
+
+.time-remaining {
+    font-size: 12px;
+}
