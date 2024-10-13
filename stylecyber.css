@@ -29,8 +29,35 @@ body, html {
     align-items: center;
     padding: 20px;
     overflow-x: hidden;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%2300ff00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>') 16 16, auto;
 }
 
+.click-effect {
+            position: fixed; /* Изменено с absolute на fixed */
+            border: 2px solid #FF00FE;
+            border-radius: 50%;
+            animation: clickEffect 0.5s ease-out;
+            pointer-events: none;
+            z-index: 9999; /* Добавлен высокий z-index */
+        }
+
+        @keyframes clickEffect {
+            0% {
+                opacity: 1;
+                width: 0.5em;
+                height: 0.5em;
+                margin: -0.25em;
+                border-width: 0.5em;
+            }
+            100% {
+                opacity: 0.2;
+                width: 15em;
+                height: 15em;
+                margin: -7.5em;
+                border-width: 0.03em;
+            }
+        }
+        
 .cyberpunk-background {
     position: fixed;
     top: 0;

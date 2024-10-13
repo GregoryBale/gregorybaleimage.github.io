@@ -12,9 +12,7 @@
         <button id="languageBtn" class="neon-button"><i class="fas fa-globe"></i></button>
         <div id="languageMenu" class="language-menu">
             <button data-lang="en">English</button>
-            <button data-lang="uk">Українська</button>
             <button data-lang="ru">Русский</button>
-            <button data-lang="hy">Հայերեն</button>
         </div>
     </div>
     <div class="music-control">
@@ -68,7 +66,7 @@
     </div>
     <center>
         <br>
-        <small>v.0.0.7 beta | <a href="https://t.me/gregorybale" target="_blank">By @gregorybale (TG)</a> | © 2024</small>
+        <small>v.0.0.8 beta | <a href="https://t.me/gregorybale" target="_blank">By @gregorybale (TG)</a> | © 2024</small>
     </center>
     <audio id="backgroundMusic" loop>
         <source src="music.m4a" type="audio/mp4">
@@ -93,6 +91,19 @@
             "renderTo": "yandex_rtb_R-A-12349955-1"
         })
     })
+    </script>
+    <script>
+        document.addEventListener('click', function(e) {
+            let clickEffect = document.createElement('div');
+            clickEffect.className = 'click-effect';
+            clickEffect.style.left = e.clientX + 'px'; // Изменено с e.pageX на e.clientX
+            clickEffect.style.top = e.clientY + 'px';  // Изменено с e.pageY на e.clientY
+            document.body.appendChild(clickEffect);
+            
+            setTimeout(() => {
+                clickEffect.remove();
+            }, 500);
+        });
     </script>
 </body>
 </html>
