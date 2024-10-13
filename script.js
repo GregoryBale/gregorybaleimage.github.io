@@ -30,7 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     let currentLanguage = 'en';
-    en: {
+
+    const translations = {
+        en: {
             title: "Cyber Generator",
             copyTitle: "Copy",
             clearTitle: "Clear",
@@ -105,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.lang = lang;
         updateTexts();
     }
-
+    
     function updateTexts() {
         const texts = translations[currentLanguage];
         document.title = texts.title;
