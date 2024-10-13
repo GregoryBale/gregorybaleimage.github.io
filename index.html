@@ -35,8 +35,19 @@
         </button>
         <div class="loader" id="loader"></div>
         <div id="imageContainer" class="image-container"></div>
+        <div id="ratingContainer" class="rating-container" style="display: none;">
+         <center>
+            <div class="rating-buttons">
+                <button id="likeBtn" class="rating-btn neon-button">
+                    <i class="fas fa-thumbs-up"></i>
+                </button>
+                <button id="dislikeBtn" class="rating-btn neon-button">
+                    <i class="fas fa-thumbs-down"></i>
+                </button>
+                </center>
+            </div>
+        </div>
     </div>
-
     <div id="notification" class="notification">
         <div class="notification-content">
             <i id="notificationIcon" class="notification-icon"></i>
@@ -46,6 +57,11 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
+    <center>
+        <br>
+        <small>v.0.0.6 beta | <a href="https://t.me/gregorybale" target="_blank">By @gregorybale (TG)</a> | © 2024</small>
+    </center>
     <script src="script.js"></script>
+    <script src="rating.js"></script>
 </body>
 </html>
