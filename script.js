@@ -30,9 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     let currentLanguage = 'en';
-
-    const translations = {
-        en: {
+    en: {
             title: "Cyber Generator",
             copyTitle: "Copy",
             clearTitle: "Clear",
@@ -47,16 +45,29 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Nothing to copy. Enter text in the input field.",
             textCleared: "Text cleared",
             alreadyEmpty: "Input field is already empty",
-            notImplemented: "Text generation function will be implemented later",
-            ratingSuccess: "Thank you for your feedback!",
-            ratingError: "Error submitting rating. Please try again.",
-            switchingModel: "Switching to another model due to delay...",
-            allModelsFailed: "All models failed to generate an image. Please try again later."
+            notImplemented: "Text generation function will be implemented later"
+        },
+        uk: {
+            title: "Кібер Генератор",
+            copyTitle: "Копіювати",
+            clearTitle: "Очистити",
+            generateTextTitle: "Згенерувати текст",
+            inputPlaceholder: "Введіть запит",
+            generateBtnText: "Створити зображення",
+            downloadText: "Завантажити",
+            successMessage: "Зображення успішно згенеровано!",
+            errorMessage: "Не вдалося згенерувати зображення. Спробуйте ще раз.",
+            copySuccess: "Текст скопійовано до буфера обміну!",
+            copyError: "Не вдалося скопіювати текст",
+            nothingToCopy: "Нічого копіювати. Введіть текст у поле вводу.",
+            textCleared: "Текст видалено",
+            alreadyEmpty: "Поле вводу вже порожнє",
+            notImplemented: "Функція генерації тексту буде реалізована пізніше"
         },
         ru: {
             title: "Кибер Генератор",
             copyTitle: "Копировать",
-            clearTitle: "Очистить",
+            clearTitle: "Стереть",
             generateTextTitle: "Сгенерировать текст",
             inputPlaceholder: "Введите запрос",
             generateBtnText: "Создать изображение",
@@ -68,13 +79,25 @@ document.addEventListener('DOMContentLoaded', function() {
             nothingToCopy: "Нечего копировать. Введите текст в поле ввода.",
             textCleared: "Текст удален",
             alreadyEmpty: "Поле ввода уже пустое",
-            notImplemented: "Функция генерации текста будет реализована позже",
-            ratingSuccess: "Спасибо за ваш отзыв!",
-            ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз.",
-            switchingModel: "Переключение на другую модель из-за задержки...",
-            allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже."
+            notImplemented: "Функция генерации текста будет реализована позже"
+        },
+        hy: {
+            title: "Կիբեր Գեներատոր",
+            copyTitle: "Պատճենել",
+            clearTitle: "Ջնջել",
+            generateTextTitle: "Գեներացնել տեքստ",
+            inputPlaceholder: "Մուտքագրեք հարցում",
+            generateBtnText: "Ստեղծել պատկեր",
+            downloadText: "Ներբեռնել",
+            successMessage: "Պատկերը հաջողությամբ գեներացվեց!",
+            errorMessage: "Չհաջողվեց գեներացնել պատկեր: Խնդրում ենք կրկին փորձել:",
+            copySuccess: "Տեքստը պատճենվեց սեղմատախտակին!",
+            copyError: "Չհաջողվեց պատճենել տեքստը",
+            nothingToCopy: "Պատճենելու ոչինչ չկա: Մուտքագրեք տեքստը դաշտում:",
+            textCleared: "Տեքստը ջնջվեց",
+            alreadyEmpty: "Մուտքագրման դաշտն արդեն դատարկ է",
+            notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ"
         }
-        // ... (other language translations)
     };
 
     function setLanguage(lang) {
