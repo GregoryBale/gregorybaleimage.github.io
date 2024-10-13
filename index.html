@@ -11,9 +11,14 @@
     <div class="language-selector">
         <button id="languageBtn" class="neon-button"><i class="fas fa-globe"></i></button>
         <div id="languageMenu" class="language-menu">
-            <button data-lang="en">English</button>        
-            <button data-lang="ru">Русский</button>            
+            <button data-lang="en">English</button>
+            <button data-lang="uk">Українська</button>
+            <button data-lang="ru">Русский</button>
+            <button data-lang="hy">Հայերեն</button>
         </div>
+    </div>
+    <div class="music-control">
+        <button id="musicBtn" class="neon-button"><i class="fas fa-music"></i></button>
     </div>
     <div class="cyberpunk-background"></div>
     <div class="glitch-overlay"></div>
@@ -32,8 +37,7 @@
             <i class="fas fa-wand-magic-sparkles"></i>&nbsp;<span id="generateBtnText">Создать изображение</span>
         </button>
         <div class="loader" id="loader"></div>
-        <div id="imageContainer" class="image-container"></div>
-            </div>
+        <div id="imageContainer" class="image-container"></div>                
         </div>
     </div>
     <div id="notification" class="notification">
@@ -45,11 +49,32 @@
             <i class="fas fa-times"></i>
         </button>
     </div>
+    <div id="musicPlayer" class="music-player">
+    <div class="player-content">
+        <div class="disc-animation"></div>
+        <div class="player-controls">
+            <button id="playPauseBtn" class="neon-button"><i class="fas fa-play"></i></button>
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <span class="time-remaining">00:00</span>
+        </div>
+    </div>
+</div>
+<audio id="backgroundMusic" loop>
+    <source src="music.m4a" type="audio/mp4">
+</audio>
+        </div>
+    </div>
     <center>
         <br>
-        <small>v.0.0.6 beta | <a href="https://t.me/gregorybale" target="_blank">By @gregorybale (TG)</a> | © 2024</small>
+        <small>v.0.0.7 beta | <a href="https://t.me/gregorybale" target="_blank">By @gregorybale (TG)</a> | © 2024</small>
     </center>
+    <audio id="backgroundMusic" loop>
+        <source src="music.m4a" type="audio/mp4">
+    </audio>
     <script src="script.js"></script>
     <script src="rating.js"></script>
+    <script src="music.js"></script>
 </body>
 </html>
