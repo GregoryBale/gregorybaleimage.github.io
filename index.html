@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кибер - генератор изображений</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="stylecyber.css" rel="stylesheet">
+</head>
+<body>
+    <div class="language-selector">
+        <button id="languageBtn" class="neon-button"><i class="fas fa-globe"></i></button>
+        <div id="languageMenu" class="language-menu">
+            <button data-lang="en">English</button>
+            <button data-lang="uk">Українська</button>
+            <button data-lang="ru">Русский</button>
+            <button data-lang="hy">Հայերեն</button>
+        </div>
+    </div>
+    <div class="cyberpunk-background"></div>
+    <div class="glitch-overlay"></div>
+    <div class="container fade-in">
+        <h1 class="glitch" data-text="Cyber Generator">Cyber Generator</h1>
+        <div class="button-group">
+            <button id="copyBtn" title="Копировать" class="neon-button"><i class="fas fa-copy"></i></button>
+            <button id="clearBtn" title="Стереть" class="neon-button"><i class="fas fa-eraser"></i></button>
+            <button id="generateTextBtn" title="Сгенерировать текст" class="neon-button"><i class="fas fa-robot"></i></button>
+        </div>
+        <div class="input-container">
+            <i class="fas fa-magic input-icon"></i>
+            <input type="text" id="imagePrompt" placeholder="Введите запрос" class="cyberpunk-input">
+        </div>      
+        <button id="generateImageBtn" class="generate-btn neon-button">
+            <i class="fas fa-wand-magic-sparkles"></i>&nbsp;<span id="generateBtnText">Создать изображение</span>
+        </button>
+        <div class="loader" id="loader"></div>
+        <div id="imageContainer" class="image-container"></div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i id="notificationIcon" class="notification-icon"></i>
+            <span id="notificationMessage"></span>
+        </div>
+        <button id="notificationAction" class="notification-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
