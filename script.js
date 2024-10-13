@@ -48,14 +48,31 @@ document.addEventListener('DOMContentLoaded', function() {
             alreadyEmpty: "Input field is already empty",
             notImplemented: "Text generation function will be implemented later",
             ratingSuccess: "Thank you for your feedback!",
-            ratingError: "Error submitting rating. Please try again.",
-            switchingModel: "Switching to another model due to delay...",
-            allModelsFailed: "All models failed to generate an image. Please try again later."
+            ratingError: "Error submitting rating. Please try again."
+        },
+        uk: {
+            title: "Кібер Генератор",
+            copyTitle: "Копіювати",
+            clearTitle: "Очистити",
+            generateTextTitle: "Згенерувати текст",
+            inputPlaceholder: "Введіть запит",
+            generateBtnText: "Створити зображення",
+            downloadText: "Завантажити",
+            successMessage: "Зображення успішно згенеровано!",
+            errorMessage: "Не вдалося згенерувати зображення. Спробуйте ще раз.",
+            copySuccess: "Текст скопійовано до буфера обміну!",
+            copyError: "Не вдалося скопіювати текст",
+            nothingToCopy: "Нічого копіювати. Введіть текст у поле вводу.",
+            textCleared: "Текст видалено",
+            alreadyEmpty: "Поле вводу вже порожнє",
+            notImplemented: "Функція генерації тексту буде реалізована пізніше",
+            ratingSuccess: "Дякуємо за ваш відгук!",
+            ratingError: "Помилка при відправці оцінки. Будь ласка, спробуйте ще раз."
         },
         ru: {
             title: "Кибер Генератор",
             copyTitle: "Копировать",
-            clearTitle: "Очистить",
+            clearTitle: "Стереть",
             generateTextTitle: "Сгенерировать текст",
             inputPlaceholder: "Введите запрос",
             generateBtnText: "Создать изображение",
@@ -69,11 +86,27 @@ document.addEventListener('DOMContentLoaded', function() {
             alreadyEmpty: "Поле ввода уже пустое",
             notImplemented: "Функция генерации текста будет реализована позже",
             ratingSuccess: "Спасибо за ваш отзыв!",
-            ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз.",
-            switchingModel: "Переключение на другую модель из-за задержки...",
-            allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже."
+            ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз."
+        },
+        hy: {
+            title: "Կիբեր Գեներատոր",
+            copyTitle: "Պատճենել",
+            clearTitle: "Ջնջել",
+            generateTextTitle: "Գեներացնել տեքստ",
+            inputPlaceholder: "Մուտքագրեք հարցում",
+            generateBtnText: "Ստեղծել պատկեր",
+            downloadText: "Ներբեռնել",
+            successMessage: "Պատկերը հաջողությամբ գեներացվեց!",
+            errorMessage: "Չհաջողվեց գեներացնել պատկեր: Խնդրում ենք կրկին փորձել:",
+            copySuccess: "Տեքստը պատճենվեց սեղմատախտակին!",
+            copyError: "Չհաջողվեց պատճենել տեքստը",
+            nothingToCopy: "Պատճենելու ոչինչ չկա: Մուտքագրեք տեքստը դաշտում:",
+            textCleared: "Տեքստը ջնջվեց",
+            alreadyEmpty: "Մուտքագրման դաշտն արդեն դատարկ է",
+            notImplemented: "Տեքստի գեներացման գործառույթը կիրականացվի ավելի ուշ",
+            ratingSuccess: "Շնորհակալություն ձեր կարծիքի համար!",
+            ratingError: "Գնահատականը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք կրկին փորձել:"
         }
-        // ... (other language translations)
     };
 
     function setLanguage(lang) {
@@ -139,58 +172,38 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.generateImageBtn.disabled = true;
         hideNotification();
 
-        let apisCopy = [...apis];
-        let success = false;
+        const randomApi = apis[Math.floor(Math.random() * apis.length)] + encodeURIComponent(query);
 
-        while (apisCopy.length > 0 && !success) {
-            const randomIndex = Math.floor(Math.random() * apisCopy.length);
-            const api = apisCopy[randomIndex];
-            
-            try {
-                const result = await Promise.race([
-                    fetch(api + encodeURIComponent(query)),
-                    new Promise((_, reject) => 
-                        setTimeout(() => reject(new Error('Timeout')), 15000)
-                    )
-                ]);
+        try {
+            const response = await fetch(randomApi);
+            const data = await response.json();
 
-                const data = await result.json();
-
-                if (data.ok) {
-                    const imageUrl = data.url;
-                    const img = new Image();
-                    img.onload = () => {
-                        elements.loader.style.display = 'none';
-                        elements.imageContainer.innerHTML = `
-                            <img src="${imageUrl}" alt="Generated Image" class="fade-in">
-                            <div class="download-overlay">
-                                <a href="${imageUrl}" download class="download-btn">
-                                    <i class="fas fa-download"></i> ${translations[currentLanguage].downloadText}
-                                </a>
-                            </div>
-                        `;
-                        elements.generateImageBtn.disabled = false;
-                        showNotification(translations[currentLanguage].successMessage, 'success');
-                        showRatingOptions();
-                    };
-                    img.src = imageUrl;
-                    success = true;
-                } else {
-                    throw new Error('API returned error');
-                }
-            } catch (error) {
-                console.error('Error with API:', api, error);
-                apisCopy.splice(randomIndex, 1);
-                if (apisCopy.length > 0) {
-                    showNotification(translations[currentLanguage].switchingModel, 'info');
-                }
+            if (data.ok) {
+                const imageUrl = data.url;
+                const img = new Image();
+                img.onload = () => {
+                    elements.loader.style.display = 'none';
+                    elements.imageContainer.innerHTML = `
+                        <img src="${imageUrl}" alt="Generated Image" class="fade-in">
+                        <div class="download-overlay">
+                            <a href="${imageUrl}" download class="download-btn">
+                                <i class="fas fa-download"></i> ${translations[currentLanguage].downloadText}
+                            </a>
+                        </div>
+                    `;
+                    elements.generateImageBtn.disabled = false;
+                    showNotification(translations[currentLanguage].successMessage, 'success');
+                    showRatingOptions();
+                };
+                img.src = imageUrl;
+            } else {
+                throw new Error('Error generating image');
             }
-        }
-
-        if (!success) {
+        } catch (error) {
+            console.error('Error:', error);
             elements.loader.style.display = 'none';
             elements.generateImageBtn.disabled = false;
-            showNotification(translations[currentLanguage].allModelsFailed, 'error');
+            showNotification(translations[currentLanguage].errorMessage, 'error');
         }
     }
 
