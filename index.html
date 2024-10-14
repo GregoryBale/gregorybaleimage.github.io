@@ -11,6 +11,21 @@
 <script src="https://yandex.ru/ads/system/context.js" async></script>
 </head>
 <body>
+    <script>
+window.yaContextCb = window.yaContextCb || [];
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        renderTo: 'yandex_rtb_R-A-12349955-1',
+        blockId: 'R-A-12349955-1'
+    }).then(() => {
+        console.log("Реклама успешно загружена");
+    }).catch((err) => {
+        console.error("Ошибка при загрузке рекламы:", err);
+        // Здесь можно добавить код для отображения альтернативного контента
+        document.getElementById('yandex_rtb_R-A-12349955-1').innerHTML = 'Реклама временно недоступна';
+    });
+})
+</script>
     <div class="language-selector">
         <button id="languageBtn" class="neon-button"><i class="fas fa-globe"></i></button>
         <div id="languageMenu" class="language-menu">
@@ -86,14 +101,6 @@
     </div>
 <!-- Yandex.RTB R-A-12349955-1 -->
 <div id="yandex_rtb_R-A-12349955-1"></div>
-<script>
-window.yaContextCb.push(() => {
-    Ya.Context.AdvManager.render({
-        "blockId": "R-A-12349955-1",
-        "renderTo": "yandex_rtb_R-A-12349955-1"
-    })
-})
-</script>
     <script>
         document.addEventListener('click', function(e) {
             let clickEffect = document.createElement('div');
@@ -107,5 +114,6 @@ window.yaContextCb.push(() => {
             }, 500);
         });
     </script>
+    <script src="https://yandex.ru/ads/system/context.js" async></script>
 </body>
 </html>
