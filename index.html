@@ -115,5 +115,18 @@ window.yaContextCb.push(() => {
     })
 })
 </script>
+    <script>
+        document.addEventListener('click', function(e) {
+            let clickEffect = document.createElement('div');
+            clickEffect.className = 'click-effect';
+            clickEffect.style.left = e.clientX + 'px'; // Изменено с e.pageX на e.clientX
+            clickEffect.style.top = e.clientY + 'px';  // Изменено с e.pageY на e.clientY
+            document.body.appendChild(clickEffect);
+            
+            setTimeout(() => {
+                clickEffect.remove();
+            }, 500);
+        });
+    </script>
 </body>
 </html>
