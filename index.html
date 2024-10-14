@@ -105,20 +105,15 @@ window.yaContextCb.push(() => {
             <a href="#" class="ad-button">Узнать больше</a>
         </div>
     </div>
-<!-- Yandex.RTB R-A-12349955-1 -->
-<div id="yandex_rtb_R-A-12349955-1"></div>
-    <script>
-        document.addEventListener('click', function(e) {
-            let clickEffect = document.createElement('div');
-            clickEffect.className = 'click-effect';
-            clickEffect.style.left = e.clientX + 'px'; // Изменено с e.pageX на e.clientX
-            clickEffect.style.top = e.clientY + 'px';  // Изменено с e.pageY на e.clientY
-            document.body.appendChild(clickEffect);
-            
-            setTimeout(() => {
-                clickEffect.remove();
-            }, 500);
-        });
-    </script>
+<!-- Yandex.RTB R-A-12355252-1 -->
+<div id="yandex_rtb_R-A-12355252-1"></div>
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-12355252-1",
+        "renderTo": "yandex_rtb_R-A-12355252-1"
+    })
+})
+</script>
 </body>
 </html>
