@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
         'https://paxsenix.serv00.net/v1/dalle.php?text='
     ];
 
+    // Загрузка настроек и отображение уведомления о куки
+    loadSettings();
+    showCookieConsent();
+
+    // Добавление события для кнопки согласия с куки
+    document.getElementById('cookieConsentBtn').addEventListener('click', function() {
+        setCookie('cookieConsent', 'true', 365);
+        hideNotification();
+    });
+
     const elements = {
         generateImageBtn: document.getElementById('generateImageBtn'),
         imagePrompt: document.getElementById('imagePrompt'),
@@ -50,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ratingSuccess: "Thank you for your feedback!",
             ratingError: "Error submitting rating. Please try again.",
             switchingModel: "Error: The model is not responding, click to switch...",
-            allModelsFailed: "All models failed to generate an image. Please try again later."
+            allModelsFailed: "All models failed to generate an image. Please try again later.",
+            cookieConsentMessage: "This website uses cookies to enhance your experience. By continuing to use this site, you agree to our use of cookies.",
+            cookieConsentButton: "I understand"
         },
         ru: {
             title: "Кибер Генератор",
@@ -71,7 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
             ratingSuccess: "Спасибо за ваш отзыв!",
             ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз.",
             switchingModel: "Ошибка: модель не отвечает, нажмите чтобы переключиться...",
-            allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже."
+            allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже.",
+            cookieConsentMessage: "Этот сайт использует файлы cookie для улучшения вашего опыта. Продолжая использовать этот сайт, вы соглашаетесь с использованием нами файлов cookie.",
+            cookieConsentButton: "Я понимаю"
         }    
     };
 
@@ -282,3 +296,116 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     initLanguage();
 });
+
+// Cookie handling functions
+function setCookie(name, value, days) {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Function to save settings
+function saveSettings() {
+    setCookie('language', currentLanguage, 30);
+    setCookie('musicEnabled', document.getElementById('musicBtn').classList.contains('active'), 30);
+}
+
+// Function to load settings
+function loadSettings() {
+    const savedLanguage = getCookie('language');
+    if (savedLanguage) {
+        setLanguage(savedLanguage);
+    }
+
+    const musicEnabled = getCookie('musicEnabled');
+    if (musicEnabled === 'true') {
+        document.getElementById('musicBtn').classList.add('active');
+        playBackgroundMusic();
+    }
+}
+
+// Modify existing functions to save settings
+function setLanguage(lang) {
+    currentLanguage = lang;
+    document.documentElement.lang = lang;
+    updateTexts();
+    saveSettings();
+}
+
+// Modify music toggle function
+function toggleMusic() {
+    const musicBtn = document.getElementById('musicBtn');
+    musicBtn.classList.toggle('active');
+    if (musicBtn.classList.contains('active')) {
+        playBackgroundMusic();
+    } else {
+        pauseBackgroundMusic();
+    }
+    saveSettings();
+}
+
+// Notification queue
+let notificationQueue = [];
+let isNotificationShowing = false;
+
+function showNotification(message, type) {
+    notificationQueue.push({ message, type });
+    if (!isNotificationShowing) {
+        displayNextNotification();
+    }
+}
+
+function displayNextNotification() {
+    if (notificationQueue.length === 0) {
+        isNotificationShowing = false;
+        return;
+    }
+
+    isNotificationShowing = true;
+    const { message, type } = notificationQueue.shift();
+
+    elements.notification.className = `notification ${type}`;
+    elements.notificationMessage.textContent = message;
+    
+    if (type === 'success') {
+        elements.notificationIcon.className = 'fas fa-check-circle notification-icon';
+        elements.notificationAction.className = 'notification-close';
+        elements.notificationAction.innerHTML = '<i class="fas fa-times"></i>';
+        elements.notificationAction.onclick = hideNotification;
+    } else {
+        elements.notificationIcon.className = 'fas fa-exclamation-circle notification-icon';
+        elements.notificationAction.className = 'notification-retry';
+        elements.notificationAction.innerHTML = '<i class="fas fa-redo"></i>';
+        elements.notificationAction.onclick = generateImage;
+    }
+    
+    elements.notification.classList.add('show');
+    if (type === 'success') {
+        setTimeout(hideNotification, 5000);
+    }
+}
+
+function hideNotification() {
+    elements.notification.classList.remove('show');
+    setTimeout(() => {
+        displayNextNotification();
+    }, 300);
+}
+
+// Cookie consent
+function showCookieConsent() {
+    if (!getCookie('cookieConsent')) {
+        showNotification(translations[currentLanguage].cookieConsentMessage, 'info');
+    }
+}
