@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
             notImplemented: "Text generation function will be implemented later",
             ratingSuccess: "Thank you for your feedback!",
             ratingError: "Error submitting rating. Please try again.",
-            switchingModel: "Switching to another model due to delay...",
+            switchingModel: "Error: The model is not responding, click to switch...",
             allModelsFailed: "All models failed to generate an image. Please try again later."
         },
         ru: {
@@ -70,10 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
             notImplemented: "Функция генерации текста будет реализована позже",
             ratingSuccess: "Спасибо за ваш отзыв!",
             ratingError: "Ошибка при отправке оценки. Пожалуйста, попробуйте еще раз.",
-            switchingModel: "Переключение на другую модель из-за задержки...",
+            switchingModel: "Ошибка: модель не отвечает, нажмите чтобы переключиться...",
             allModelsFailed: "Все модели не смогли сгенерировать изображение. Пожалуйста, попробуйте позже."
-        }
-        
+        }    
     };
 
     function setLanguage(lang) {
